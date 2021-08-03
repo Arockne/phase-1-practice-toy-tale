@@ -1,22 +1,25 @@
 let addToy = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-  const addBtn = document.querySelector("#new-toy-btn");
-  const toyFormContainer = document.querySelector(".container");
-  addBtn.addEventListener("click", () => {
-    // hide & seek with the form
-    addToy = !addToy;
-    if (addToy) {
-      toyFormContainer.style.display = "block";
-    } else {
-      toyFormContainer.style.display = "none";
-    }
-  });
   getToys();
+  
+  const addBtn = document.querySelector("#new-toy-btn");
+  addBtn.addEventListener("click", hideForm);
+  
   const toyForm = document.querySelector('.add-toy-form');
   toyForm.addEventListener('submit', storeToy)
-
 });
+
+function hideForm() {
+  const toyFormContainer = document.querySelector(".container");
+  // hide & seek with the form
+  addToy = !addToy;
+  if (addToy) {
+    toyFormContainer.style.display = "block";
+  } else {
+    toyFormContainer.style.display = "none";
+  }
+}
 
 function getToys() {
   fetch('http://localhost:3000/toys')
