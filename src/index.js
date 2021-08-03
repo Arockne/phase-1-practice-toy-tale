@@ -29,3 +29,26 @@ function getToys() {
   .then(resp => resp.json())
   .then(toys => toys.forEach(toy => createToy(toy)));
 }
+
+function createToy(toy) {
+  const h2 = document.createElement('h2');
+  h2.textContent = toy.name;
+
+  const img = document.createElement('img');
+  img.src = toy.image;
+  img.className = 'toy-avatar';
+  
+  const p = document.createElement('p');
+  p.textContent = `${toy.likes} likes`;
+
+  const btn = document.createElement('button');
+  btn.className = 'like-btn';
+  btn.id = toy.id;
+  btn.textContent = 'like'
+
+  const div = document.createElement('div');
+  div.className = 'card';
+
+  div.append(h2, img, p, btn);
+  document.querySelector('#toy-collection').appendChild(div);
+}
