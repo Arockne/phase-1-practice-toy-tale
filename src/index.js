@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   getToys();
   const toyForm = document.querySelector('.add-toy-form');
   toyForm.addEventListener('submit', storeToy)
+
 });
 
 function getToys() {
@@ -38,6 +39,7 @@ function createToy(toy) {
   btn.className = 'like-btn';
   btn.id = toy.id;
   btn.textContent = 'like'
+  btn.addEventListener('click', addLikes);
 
   const div = document.createElement('div');
   div.className = 'card';
@@ -64,4 +66,22 @@ function storeToy(e) {
   })
   .then(resp => resp.json())
   .then(createToy);
+}
+
+function addLikes(e) {
+  const btn = e.target;
+  const likes = e.target.parentNode.querySelector('p');
+
+  let numLikes = Number(likes.textContent.split(' ')[0]);
+  numLikes += 1;
+
+  likes.textContent = `${numLikes} likes`;
+
+  fetch(`http://localhost:3000/toys/${btn.id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({likes: numLikes})
+  })
 }
