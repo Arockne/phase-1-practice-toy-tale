@@ -13,17 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   getToys();
+  const toyForm = document.querySelector('.add-toy-form');
+  toyForm.addEventListener('submit', storeToy)
 });
 
-//implement getToys
-  //fetches data from db
-  //for each toy in db 
-    //hold all info in a div with class of card
-      //h2 with toys name
-      //img with src
-      //p with likes
-      //btn with class like-btn
-        //id with toy attribute
 function getToys() {
   fetch('http://localhost:3000/toys')
   .then(resp => resp.json())
@@ -51,4 +44,24 @@ function createToy(toy) {
 
   div.append(h2, img, p, btn);
   document.querySelector('#toy-collection').appendChild(div);
+}
+
+function storeToy(e) {
+  e.preventDefault();
+  const form = e.target;
+  const input = form.querySelectorAll('.input-text');
+  
+  fetch('http://localhost:3000/toys', {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: input[0].value,
+      image: input[1].value,
+      likes: 0
+    })
+  })
+  .then(resp => resp.json())
+  .then(createToy);
 }
